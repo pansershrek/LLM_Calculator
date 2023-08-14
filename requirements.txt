@@ -1,0 +1,11 @@
+datasets
+loralib
+sentencepiece
+git+https://github.com/huggingface/transformers.git
+git+https://github.com/huggingface/accelerate.git
+bitsandbytes
+peft==0.2.0
+appdirs
+black
+gradio
+fire

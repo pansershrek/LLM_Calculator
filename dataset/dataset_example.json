@@ -1,0 +1,8 @@
+[
+    {
+        "instruction": "Show the sequential steps for calculating the sum of 45479662764452 and 113070042569.",
+        "input": "45479662764452 + 113070042569",
+        "output": "45479662764452 + 113070042569 = 45592732807021",
+        "answer": "45592732807021"
+    }
+]
