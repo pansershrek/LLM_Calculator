@@ -1,12 +1,11 @@
 import os
 import sys
-
 import fire
 import gradio as gr
 import torch
 import transformers
 from peft import PeftModel, prepare_model_for_int8_training
-from transformers import GenerationConfig, BloomForCausalLM, AutoTokenizer
+from transformers import GenerationConfig, AutoModelForCausalLM, AutoTokenizer
 
 from callbacks import Iteratorize, Stream
 from prompter import Prompter
@@ -14,15 +13,15 @@ from prompter import Prompter
 
 
 def main(
-    base_model: str = "bigscience/bloom-3b",
-    lora_weights: str = "lora_weights",
+    base_model: str = "Deci/DeciCoder-1b",
+    lora_weights: str = "decicoder_lora_weights",
     server_name: str = "0.0.0.0",
     share_gradio: bool = True,
     device: str = "cpu"
 ):
     prompter = Prompter()
     tokenizer = AutoTokenizer.from_pretrained(base_model)
-    model = BloomForCausalLM.from_pretrained(
+    model = AutoModelForCausalLM.from_pretrained(
         base_model, device_map=device, low_cpu_mem_usage=True
     )
     model.eval()
@@ -135,7 +134,7 @@ def main(
         ],
         title="LLM_Calculator",
         description=(
-            "LLM_Calculator is a BLOOM-3b model fine-tuned on a "
+            f"LLM_Calculator is a {base_model} model fine-tuned on a "
             "synthetic dataset to perform arithmetic tasks: addition of integers."
         ),
     ).queue().launch(server_name="0.0.0.0", share=share_gradio)

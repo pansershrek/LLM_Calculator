@@ -6,7 +6,7 @@ import json
 
 import torch
 from peft import PeftModel
-from transformers import GenerationConfig, BloomForCausalLM, AutoTokenizer
+from transformers import GenerationConfig, AutoModelForCausalLM, AutoTokenizer
 
 from prompter import Prompter
 
@@ -54,10 +54,11 @@ def test_model(
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--base_model", default="bigscience/bloom-3b", help="Base model name"
+        "--base_model", default="bigscience/bloom-3b",
+        help="Base model name. Deci/DeciCoder-1b or bigscience/bloom-3b"
     )
     parser.add_argument(
-        "--lora_weights", default="lora_weights",
+        "--lora_weights", default="bloom_lora_weights",
         help="Path to lora weights folder"
     )
     parser.add_argument(
@@ -69,7 +70,7 @@ def main():
 
     prompter = Prompter()
     tokenizer = AutoTokenizer.from_pretrained(args.base_model)
-    model = BloomForCausalLM.from_pretrained(
+    model = AutoModelForCausalLM.from_pretrained(
         args.base_model, device_map=device, low_cpu_mem_usage=True
     )
     model.eval()
